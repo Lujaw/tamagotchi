@@ -1,0 +1,18 @@
+{
+  "name": "tamagotchi",
+  "version": "1.0.0",
+  "description": "A virtual Pet created in node ",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "keywords": [
+    "tamagotchi"
+  ],
+  "author": "Luja Shrestha <lujash2@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "crocks": "0.11.0",
+    "ramda": "0.25.0"
+  }
+}
