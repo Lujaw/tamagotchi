@@ -1,0 +1,15 @@
+const MAX_THRESHOLD = 10;
+const MIN_THRESHOLD = 0;
+const MED_THRESHOLD = 7;
+const MIN_INCREMENT = 1;
+const MAX_INCREMENT = 1;
+
+
+
+module.exports = {
+    MAX_THRESHOLD,
+    MIN_THRESHOLD,
+    MED_THRESHOLD,
+    MIN_INCREMENT,
+    MAX_INCREMENT
+}
