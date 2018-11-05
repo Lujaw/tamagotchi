@@ -4,7 +4,8 @@
   "description": "A virtual Pet created in node ",
   "main": "index.js",
   "scripts": {
-    "test": "npm test"
+    "test": "npm test",
+    "start": "nodemon app/index.js"
   },
   "keywords": [
     "tamagotchi"
@@ -13,6 +14,10 @@
   "license": "ISC",
   "dependencies": {
     "crocks": "0.11.0",
+    "moment": "2.22.2",
     "ramda": "0.25.0"
+  },
+  "devDependencies": {
+    "nodemon": "1.18.5"
   }
 }
