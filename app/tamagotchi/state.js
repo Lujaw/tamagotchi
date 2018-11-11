@@ -1,7 +1,16 @@
+const R = require('ramda');
+
 const {
   assignOrRandom,
-  generateRandom
+  generateRandom,
+  incWithinThreshold,
+  decWithinThreshold
 } = require("../utils/helpers");
+
+const decreasingStates = ['hunger','happiness','energy','health'];
+const increasingStates = ['bowel'];
+const combinedStates = R.concat(decreasingStates, increasingStates);
+
 
 const getState = ({
   health,
@@ -22,7 +31,17 @@ const updateState = (state, currenState) => ({
   ...state
 })
 
+const stateLoopTransformer = () => {
+  const stateOperation = (state, operation) =>
+    R.contains(state, decreasingStates) ?
+      { [state]: decWithinThreshold } :
+      { [state]: incWithinThreshold };
+
+  return R.mergeAll(R.zipWith(stateOperation, combinedStates, Array(combinedStates.length)));
+}
+
 module.exports = {
   getState,
-  updateState
+  updateState,
+  stateLoopTransformer
 }

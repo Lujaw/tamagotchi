@@ -1,24 +1,8 @@
 const R = require('ramda');
 const Re = require('ramda-extension');
 
-const {
-  MAX_THRESHOLD,
-  MIN_THRESHOLD,
-  MED_THRESHOLD,
-  MIN_INCREMENT,
-  MAX_INCREMENT
-} = require("../config/constants");
+const { incWithinThreshold, decWithinThreshold } = require('../utils/helpers');
 
-const incOrDec = (action) => (value) =>
-  action == 'inc' ? R.inc(value) : R.dec(value);
-
-const updateWithinThreshold = (action) => R.compose(
-  R.clamp(MIN_THRESHOLD, MAX_THRESHOLD),
-  incOrDec(action)
-);
-
-const incWithinThreshold = updateWithinThreshold('inc');
-const decWithinThreshold = updateWithinThreshold('dec');
 
 const actions = {
   "feed": {
@@ -44,8 +28,6 @@ const actions = {
 
 const nonUserActions = ['poop', 'age', 'sleep'];
 
-console.log(R.sortBy(R.props, actions))
-
 const invoke = stats => action =>
   R.evolve(actions[action])(stats);
 
@@ -63,5 +45,7 @@ const actionList = omitNonUserActions(actions);
 
 module.exports = {
   invoke,
-  actionList
+  actionList,
+  decWithinThreshold,
+  incWithinThreshold
 }
