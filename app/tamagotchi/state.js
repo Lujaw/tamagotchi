@@ -7,11 +7,13 @@ const getState = ({
   health,
   energy,
   hunger,
-  bowel
+  bowel,
+  happiness
 } = {}) => ({
   health: assignOrRandom(health),
   energy: assignOrRandom(energy),
   hunger: assignOrRandom(hunger),
+  happiness: assignOrRandom(happiness),
   bowel: bowel || generateRandom(10, 0)
 });
 

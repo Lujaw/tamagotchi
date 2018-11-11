@@ -1,5 +1,5 @@
 const R = require('ramda');
-const Ru = require('@panosoft/ramda-utils');
+const Re = require('ramda-extension');
 
 const {
   MAX_THRESHOLD,
@@ -7,26 +7,37 @@ const {
   MED_THRESHOLD,
   MIN_INCREMENT,
   MAX_INCREMENT
-} = require("../config/constants")
+} = require("../config/constants");
+
+const incOrDec = (action) => (value) =>
+  action == 'inc' ? R.inc(value) : R.dec(value);
+
+const updateWithinThreshold = (action) => R.compose(
+  R.clamp(MIN_THRESHOLD, MAX_THRESHOLD),
+  incOrDec(action)
+);
+
+const incWithinThreshold = updateWithinThreshold('inc');
+const decWithinThreshold = updateWithinThreshold('dec');
 
 const actions = {
   "feed": {
-    "hunger": R.add(MIN_INCREMENT)
+    "hunger": incWithinThreshold
   },
   "putToBed": {
-    "energy": R.add(MIN_INCREMENT)
+    "energy":incWithinThreshold
   },
   "sleep": {
-    "energy": R.add(MIN_INCREMENT)
+    "energy":incWithinThreshold
   },
   "pet": {
-    "happiness": R.add(MIN_INCREMENT)
+    "happiness":incWithinThreshold
   },
   "poop": {
-    "bowel": R.add(MIN_INCREMENT)
+    "bowel":incWithinThreshold
   },
   "age": {
-    "birthDate": R.add(MIN_INCREMENT)
+    "birthDate":incWithinThreshold
   },
 
 };
@@ -40,7 +51,7 @@ const invoke = stats => action =>
 
 const omitKeysAndSort = omitKeys => R.compose(
   R.sort(alphabeticCompare),
-  R.without(nonUserActions),
+  R.without(omitKeys),
   R.keys
 );
 
