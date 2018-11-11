@@ -32,7 +32,7 @@ const updateState = (state, currenState) => ({
 })
 
 const stateLoopTransformer = () => {
-  const stateOperation = (state, operation) =>
+  const stateOperation = (state) =>
     R.contains(state, decreasingStates) ?
       { [state]: decWithinThreshold } :
       { [state]: incWithinThreshold };

@@ -1,24 +1,27 @@
 const R = require('ramda');
 const Re = require('ramda-extension');
 
-const { incWithinThreshold, decWithinThreshold } = require('../utils/helpers');
+const { incWithinThreshold, decWithinThreshold, resetTo } = require('../utils/helpers');
 
+const { MAX_VALUE, MIN_VALUE } = require("../config/constants")
+
+const nonUserActions = ['poop', 'age', 'sleep'];
 
 const actions = {
   "feed": {
-    "hunger": incWithinThreshold
+    "hunger": resetTo(MIN_VALUE)
   },
   "putToBed": {
-    "energy":incWithinThreshold
+    "energy": resetTo(MAX_VALUE)
   },
   "sleep": {
-    "energy":incWithinThreshold
+    "energy": resetTo(MAX_VALUE)
   },
   "pet": {
-    "happiness":incWithinThreshold
+    "happiness": incWithinThreshold
   },
   "poop": {
-    "bowel":incWithinThreshold
+    "bowel": resetTo(MIN_VALUE)
   },
   "age": {
     "birthDate":incWithinThreshold
@@ -26,9 +29,8 @@ const actions = {
 
 };
 
-const nonUserActions = ['poop', 'age', 'sleep'];
-
 const invoke = stats => action =>
+  console.log(action) ||
   R.evolve(actions[action])(stats);
 
 const omitKeysAndSort = omitKeys => R.compose(
