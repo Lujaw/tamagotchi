@@ -5,32 +5,49 @@ const { incWithinThreshold, decWithinThreshold, resetTo } = require('../utils/he
 
 const { MAX_VALUE, MIN_VALUE } = require("../config/constants")
 
-const nonUserActions = ['poop', 'age', 'sleep'];
+const nonUserActions = ['poop', 'sleep'];
 
 const actions = {
   "feed": {
-    "hunger": resetTo(MIN_VALUE)
+    "hunger": resetTo(MIN_VALUE),
+    "energy": decWithinThreshold,
+    // "health": incWithinThreshold,
+    "happiness": incWithinThreshold,
   },
-  "putToBed": {
-    "energy": resetTo(MAX_VALUE)
-  },
-  "sleep": {
-    "energy": resetTo(MAX_VALUE)
-  },
-  "pet": {
+  "put to bed": {
+    "energy": resetTo(MAX_VALUE),
+    "hunger": incWithinThreshold,
+    // "health": incWithinThreshold,
     "happiness": incWithinThreshold
   },
+  "sleep": {
+    "energy": resetTo(MAX_VALUE),
+    "hunger": incWithinThreshold,
+    // "health": incWithinThreshold,
+    "happiness": incWithinThreshold
+  },
+  "play": {
+    "happiness": incWithinThreshold,
+    "energy": decWithinThreshold,
+    // "health": incWithinThreshold,
+    "hunger": incWithinThreshold
+  },
   "poop": {
-    "bowel": resetTo(MIN_VALUE)
-  },
-  "age": {
-    "birthDate":incWithinThreshold
-  },
+    "bowel": resetTo(MIN_VALUE),
+    "hunger": incWithinThreshold,
+    "energy": decWithinThreshold,
+    // "health": R.identity
+  }
 
 };
 
+const die = (name, message) => {
+  console.log(`${name} has succumbed to ${message} and has gone to paradise`);
+  process.exit()
+}
+
 const invoke = stats => action =>
-  console.log(action) ||
+  console.log("action -->",action, stats) ||
   R.evolve(actions[action])(stats);
 
 const omitKeysAndSort = omitKeys => R.compose(
@@ -47,6 +64,7 @@ const actionList = omitNonUserActions(actions);
 
 module.exports = {
   invoke,
+  die,
   actionList,
   decWithinThreshold,
   incWithinThreshold
