@@ -12,7 +12,7 @@ const actions = {
     "hunger": resetTo(MIN_VALUE),
     "energy": decWithinThreshold,
     "health": incWithinThreshold,
-    "happiness": incWithinThreshold,
+    "happiness": incWithinThreshold
   },
   "put to bed": {
     "energy": resetTo(MAX_VALUE),
@@ -50,7 +50,7 @@ const actions = {
 };
 
 const die = (name, message) => {
-  exitWithMessage(`${name} has succumbed to ${message} and has gone to paradise`);
+  exitWithMessage(`${Re.toUpperFirst(name)} has succumbed to ${message} and has gone to paradise.`);
 }
 
 const invoke = stats => action => {

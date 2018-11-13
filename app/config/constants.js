@@ -1,4 +1,4 @@
-const TIME_STEP = 1000; //loop interval time in milliseconds
+const TIME_STEP = 15000; //loop interval time in milliseconds
 const MAX_VALUE = 100;
 const MIN_VALUE = 0;
 const MAX_AGE = 100;
@@ -7,6 +7,7 @@ const LOWER_THRESHOLD = 0.15 * MAX_VALUE;
 const UPPER_THRESHOLD = 0.85 * MAX_VALUE;
 const MIN_INCREMENT = 0.1 * MAX_VALUE;
 const MAX_INCREMENT = 0.5 * MAX_VALUE;
+const DEFAULT_NAME = 'Tamagotchi';
 
 
 
@@ -19,5 +20,6 @@ module.exports = {
   UPPER_THRESHOLD,
   MIN_INCREMENT,
   MAX_INCREMENT,
-  MAX_AGE
+  MAX_AGE,
+  DEFAULT_NAME
 }

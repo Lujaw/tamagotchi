@@ -15,6 +15,7 @@ const assignOrRandom = (value) => value || generateRandom(MAX_VALUE, MED_VALUE);
 
 const minIncrement = value => R.add(MIN_INCREMENT, value);
 const minDecrement = value => R.subtract(value, MIN_INCREMENT);
+const divideByTen = R.divide(R.__, 10);
 const incOrDec = (action) => (value) =>
   action == 'inc' ? minIncrement(value) : minDecrement(value);
 
@@ -31,14 +32,32 @@ const resetTo = (value) => R.always(value);
 const capitalizeKeys = Re.mapKeysWithValue((k,v) => Re.toUpperFirst(k))
 
 const progressBar = (value, char = '#') =>{
-  const length = Math.floor(MAX_VALUE/10);
-  return `[${Array(length).fill("_").fill(char, 0, value).join('')}]`;
+  const length = Math.floor(divideByTen(MAX_VALUE));
+  return `[${Array(length).fill("_").fill(char, 0, divideByTen(value)).join('')}]`;
 }
 
-const getStateProgress = Re.mapKeysAndValues(([a, b]) =>
-  [Re.toUpperFirst(a), progressBar(b)]);
+const numberToProgressBar = (value) => Re.isNumber(value) ? progressBar(value) : value;
 
-const sanitizeState = (state = "") => state.replace(/\'|\"|{|}/gm, "").replace(/,/gm, "\t").replace(/:/gm, ":\t");
+const objectValueToProgressBar = Re.mapKeysAndValues(([a, b]) =>
+  [Re.toUpperFirst(a), numberToProgressBar(b)]);
+
+const sanitizeObjectToString = (state = {}) =>{
+  try{
+    const stateString = JSON.stringify(state);
+    return stateString
+      .replace(/\'|\"|{|}/gm, "")
+      .replace(/,/gm, "\t")
+      .replace(/:/gm, ": ")
+  }
+  catch(e){
+    throw e;
+  }
+}
+
+const convertToStringWithProgressBar = R.compose(
+  sanitizeObjectToString,
+  objectValueToProgressBar
+)
 
 
 const exitWithMessage = (message) =>{
@@ -48,6 +67,7 @@ const exitWithMessage = (message) =>{
 
 const isProdEnv = () => process.env.NODE_ENV === 'prod'
 
+const unnestAll = R.unapply(R.unnest);
 
 module.exports = {
   generateRandom,
@@ -57,8 +77,9 @@ module.exports = {
   resetTo,
   capitalizeKeys,
   progressBar,
-  getStateProgress,
-  sanitizeState,
+  sanitizeObjectToString,
   exitWithMessage,
-  isProdEnv
+  isProdEnv,
+  convertToStringWithProgressBar,
+  unnestAll
 }
