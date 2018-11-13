@@ -1,16 +1,19 @@
 const R = require('ramda');
+const Re = require('ramda-extension');
 
+const { MAX_VALUE, MIN_VALUE } = require('../config/constants')
 const {
   assignOrRandom,
   generateRandom,
   incWithinThreshold,
-  decWithinThreshold
+  decWithinThreshold,
+  getStateProgress,
+  sanitizeState
 } = require("../utils/helpers");
 
 const decreasingStates = ['hunger','happiness','energy','health'];
 const increasingStates = ['bowel'];
 const combinedStates = R.concat(decreasingStates, increasingStates);
-
 
 const getState = ({
   health,
@@ -23,7 +26,7 @@ const getState = ({
   energy: assignOrRandom(energy),
   hunger: assignOrRandom(hunger),
   happiness: assignOrRandom(happiness),
-  bowel: bowel || generateRandom(10, 0)
+  bowel: bowel || generateRandom(MAX_VALUE, MIN_VALUE)
 });
 
 const updateState = (state, currenState) => ({
@@ -31,6 +34,10 @@ const updateState = (state, currenState) => ({
   ...state
 })
 
+const showStates = (state) => {
+  const currentState = JSON.stringify(getStateProgress(state))
+  console.log( sanitizeState(currentState))
+}
 const stateLoopTransformer = () => {
   const stateOperation = (state) =>
     R.contains(state, decreasingStates) ?
@@ -43,5 +50,6 @@ const stateLoopTransformer = () => {
 module.exports = {
   getState,
   updateState,
+  showStates,
   stateLoopTransformer
 }

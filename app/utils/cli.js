@@ -15,17 +15,12 @@ const promptAction = (options) => async (name)  =>
     }
   ]);
 
-
-// const promptUser = (options, maxNumber) => async (name)  => {
-//   console.log(`What would you like ${Re.toUpperFirst(name)} to do? \n${options}` );
-//   return await prompt(`Enter number [1-${maxNumber}]: `);
-// }
-
 const promptText = async (text) =>
   await prompt([{
     type: 'input',
     name: 'name',
-    message: text
+    message: text,
+    result: (value) => value ? Re.toUpperFirst(value) : []
 }]);
 
 module.exports = {

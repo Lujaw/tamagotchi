@@ -13,11 +13,6 @@ const generateRandom = (max, min = 0) => Math.floor(min + Math.random() * (max -
 
 const assignOrRandom = (value) => value || generateRandom(MAX_VALUE, MED_VALUE);
 
-const mapIndexed = R.addIndex(R.map);
-
-const indexedList = mapIndexed((val, idx) => `${idx + 1}-> ${Re.toPascalCase(val)}`);
-
-
 const minIncrement = value => R.add(MIN_INCREMENT, value);
 const minDecrement = value => R.subtract(value, MIN_INCREMENT);
 const incOrDec = (action) => (value) =>
@@ -33,12 +28,37 @@ const decWithinThreshold = updateWithinThreshold('dec');
 
 const resetTo = (value) => R.always(value);
 
+const capitalizeKeys = Re.mapKeysWithValue((k,v) => Re.toUpperFirst(k))
+
+const progressBar = (value, char = '#') =>{
+  const length = Math.floor(MAX_VALUE/10);
+  return `[${Array(length).fill("_").fill(char, 0, value).join('')}]`;
+}
+
+const getStateProgress = Re.mapKeysAndValues(([a, b]) =>
+  [Re.toUpperFirst(a), progressBar(b)]);
+
+const sanitizeState = (state = "") => state.replace(/\'|\"|{|}/gm, "").replace(/,/gm, "\t").replace(/:/gm, ":\t");
+
+
+const exitWithMessage = (message) =>{
+  console.log(message);
+  process.exit();
+}
+
+const isProdEnv = () => process.env.NODE_ENV === 'prod'
+
+
 module.exports = {
   generateRandom,
   assignOrRandom,
-  mapIndexed,
-  indexedList,
   incWithinThreshold,
   decWithinThreshold,
-  resetTo
+  resetTo,
+  capitalizeKeys,
+  progressBar,
+  getStateProgress,
+  sanitizeState,
+  exitWithMessage,
+  isProdEnv
 }
