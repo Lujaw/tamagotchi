@@ -6,6 +6,7 @@
   "scripts": {
     "test": "NODE_ENV=test jest --watch",
     "start": "NODE_ENV=dev node app/index.js",
+    "lint": "eslint ./app",
     "serve": "NODE_ENV=prod npm run start"
   },
   "keywords": [
@@ -20,6 +21,7 @@
     "ramda-extension": "0.6.1"
   },
   "devDependencies": {
+    "eslint": "5.9.0",
     "jest": "23.6.0",
     "nodemon": "1.18.5"
   }

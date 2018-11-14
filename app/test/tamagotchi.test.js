@@ -13,12 +13,12 @@ describe('Tamagotchi', () => {
     const state = pet.getState();
     expect(pet.getName()).toBe('testPet');
     expect(pet.getAge()).toBe(0);
-    expect(state).toHaveProperty("health");
-    expect(state).toHaveProperty("stage", "New born");
-    expect(state).toHaveProperty("happiness");
-    expect(state).toHaveProperty("bowel");
-    expect(state).toHaveProperty("energy");
-    expect(state).toHaveProperty("hunger");
+    expect(state).toHaveProperty('health');
+    expect(state).toHaveProperty('stage', 'New born');
+    expect(state).toHaveProperty('happiness');
+    expect(state).toHaveProperty('bowel');
+    expect(state).toHaveProperty('energy');
+    expect(state).toHaveProperty('hunger');
   });
 
   it('should be able to be renamed', () => {
@@ -28,27 +28,23 @@ describe('Tamagotchi', () => {
   });
 
 
-  it('should start the state loop for the tamagotchi', done => {
+  it('should start the state loop for the tamagotchi', (done) => {
     const initialState = pet.getState();
     pet.startLoop(1);
-    setTimeout(function () {
+    setTimeout(() => {
       const newState = pet.getState();
       expect(newState).not.toEqual(initialState);
-      expect(newState).toHaveProperty("health", 0);
-      expect(newState).toHaveProperty("happiness", 0);
-      expect(newState).toHaveProperty("bowel", 100);
-      expect(newState).toHaveProperty("energy", 0);
-      expect(newState).toHaveProperty("hunger", 0);
-      done()
-    }, 100)
+      expect(newState).toHaveProperty('health', 0);
+      expect(newState).toHaveProperty('happiness', 0);
+      expect(newState).toHaveProperty('hunger', 0);
+      done();
+    }, 100);
   });
-
 
 
   describe('tamagotchi', () => {
     const actionStates = R.toPairs(actionsFixtures.actions);
-    describe.each(actionStates)
-    ('',
+    describe.each(actionStates)('',
       (a, expected) => {
         test(`${a} changes state to ${JSON.stringify(expected)}`, () => {
           pet.setState(actionsFixtures.initialState);

@@ -1,7 +1,6 @@
 const R = require('ramda');
-const Re = require('ramda-extension');
 
-const { MAX_VALUE, MIN_VALUE } = require('../config/constants')
+const { MAX_VALUE, MIN_VALUE } = require('../config/constants');
 const {
   assignOrRandom,
   convertToStringWithProgressBar,
@@ -10,9 +9,9 @@ const {
   incWithinThreshold,
   isEnv,
   unnestAll
-} = require("../utils/helpers");
+} = require('../utils/helpers');
 
-const decreasingStates = ['hunger','happiness','energy','health'];
+const decreasingStates = ['hunger', 'happiness', 'energy', 'health'];
 const increasingStates = ['bowel'];
 const combinedStates = unnestAll(decreasingStates, increasingStates);
 
@@ -35,29 +34,29 @@ const initState = ({
 const updateState = (state, currentState) => ({
   ...currentState,
   ...state
-})
+});
 
-const showStates = (state) => 
-  !isEnv('test') && console.log(convertToStringWithProgressBar(state))
+const showStates = state => !isEnv('test') && console.log(convertToStringWithProgressBar(state));
 
 const stateLoopTransformer = () => {
   const stateOperation = R.cond([
-    [R.contains(R.__, decreasingStates), R.assoc(R.__,decWithinThreshold,{}) ],
-    [R.contains(R.__, increasingStates), R.assoc(R.__,incWithinThreshold,{}) ],
+    [R.contains(R.__, decreasingStates), R.assoc(R.__, decWithinThreshold, {})],
+    [R.contains(R.__, increasingStates), R.assoc(R.__, incWithinThreshold, {})],
     [R.T, R.identity]
-  ])
+  ]);
 
   return R.mergeAll(
     R.zipWith(
       stateOperation,
       combinedStates,
-      Array(combinedStates.length))
-   );
-}
+      Array(combinedStates.length),
+    ),
+  );
+};
 
 module.exports = {
   initState,
   updateState,
   showStates,
   stateLoopTransformer
-}
+};

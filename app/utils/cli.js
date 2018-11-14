@@ -5,7 +5,8 @@ const colors = require('ansi-colors');
 const { prompt } = require('enquirer');
 
 const { convertToStringWithProgressBar } = require('./helpers');
-const promptAction = (options) => async (state, name = "Tamagotchi") => {
+
+const promptAction = options => async (state, name = 'Tamagotchi') => {
   console.clear();
   return await prompt([{
     type: 'select',
@@ -14,9 +15,9 @@ const promptAction = (options) => async (state, name = "Tamagotchi") => {
     footer: colors.blue('(Press up and down to select action)'),
     message: `What do you want to do with ${name}?`,
     choices: options.map(Re.toUpperFirst),
-    result: (value) => value ? R.toLower(value) : []
+    result: value => (value ? R.toLower(value) : [])
   }]);
-}
+};
 
 const promptText = async (text) => {
   console.clear();
@@ -24,11 +25,11 @@ const promptText = async (text) => {
     type: 'input',
     name: 'name',
     message: text,
-    result: (value) => value ? Re.toUpperFirst(value) : []
+    result: value => (value ? Re.toUpperFirst(value) : [])
   }]);
-}
+};
 
 module.exports = {
   promptAction,
-  promptText,
-}
+  promptText
+};
