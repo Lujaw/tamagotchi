@@ -65,7 +65,7 @@ const exitWithMessage = (message) =>{
   process.exit();
 }
 
-const isProdEnv = () => process.env.NODE_ENV === 'prod'
+const isEnv = (env) => R.toLower(process.env.NODE_ENV) === R.toLower(env)
 
 const unnestAll = R.unapply(R.unnest);
 
@@ -79,7 +79,7 @@ module.exports = {
   progressBar,
   sanitizeObjectToString,
   exitWithMessage,
-  isProdEnv,
+  isEnv,
   convertToStringWithProgressBar,
   unnestAll
 }

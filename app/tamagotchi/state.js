@@ -4,11 +4,12 @@ const Re = require('ramda-extension');
 const { MAX_VALUE, MIN_VALUE } = require('../config/constants')
 const {
   assignOrRandom,
-  unnestAll,
+  convertToStringWithProgressBar,
+  decWithinThreshold,
   generateRandom,
   incWithinThreshold,
-  decWithinThreshold,
-  convertToStringWithProgressBar
+  isEnv,
+  unnestAll
 } = require("../utils/helpers");
 
 const decreasingStates = ['hunger','happiness','energy','health'];
@@ -28,15 +29,16 @@ const initState = ({
   hunger: assignOrRandom(hunger),
   happiness: assignOrRandom(happiness),
   bowel: bowel || generateRandom(MAX_VALUE, MIN_VALUE),
-  stage: 'New born'
+  stage: stage || 'New born'
 });
 
-const updateState = (state, currenState) => ({
-  ...currenState,
+const updateState = (state, currentState) => ({
+  ...currentState,
   ...state
 })
 
-const showStates = (state) => console.log(convertToStringWithProgressBar(state))
+const showStates = (state) => 
+  !isEnv('test') && console.log(convertToStringWithProgressBar(state))
 
 const stateLoopTransformer = () => {
   const stateOperation = R.cond([

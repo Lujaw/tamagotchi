@@ -23,7 +23,7 @@ describe('Tamagotchi', () => {
 
   it('should be able to be renamed', () => {
     expect(pet.getName()).toBe('testPet');
-    pet.setName('newName')
+    pet.setName('newName');
     expect(pet.getName()).toBe('newName');
   });
 
@@ -32,23 +32,23 @@ describe('Tamagotchi', () => {
     const initialState = pet.getState();
     pet.startLoop(1);
     setTimeout(function () {
-      const newstate = pet.getState();
-      expect(newstate).not.toEqual(initialState);
-      expect(pet.getState()).toHaveProperty("health", 0);
-      expect(pet.getState()).toHaveProperty("happiness", 0);
-      expect(pet.getState()).toHaveProperty("bowel", 100);
-      expect(pet.getState()).toHaveProperty("energy", 0);
-      expect(pet.getState()).toHaveProperty("hunger", 0);
+      const newState = pet.getState();
+      expect(newState).not.toEqual(initialState);
+      expect(newState).toHaveProperty("health", 0);
+      expect(newState).toHaveProperty("happiness", 0);
+      expect(newState).toHaveProperty("bowel", 100);
+      expect(newState).toHaveProperty("energy", 0);
+      expect(newState).toHaveProperty("hunger", 0);
       done()
     }, 100)
   });
 
 
 
-  describe('tamagotchi actions: ', () => {
+  describe('tamagotchi', () => {
     const actionStates = R.toPairs(actionsFixtures.actions);
     describe.each(actionStates)
-    ('.add(`tests`)',
+    ('',
       (a, expected) => {
         test(`${a} changes state to ${JSON.stringify(expected)}`, () => {
           pet.setState(actionsFixtures.initialState);

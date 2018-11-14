@@ -4,8 +4,8 @@
   "description": "A virtual Pet created in node ",
   "main": "index.js",
   "scripts": {
-    "test": "npm test",
-    "start": "node app/index.js",
+    "test": "NODE_ENV=test jest --watch",
+    "start": "NODE_ENV=dev node app/index.js",
     "serve": "NODE_ENV=prod npm run start"
   },
   "keywords": [
@@ -14,12 +14,13 @@
   "author": "Luja Shrestha <lujash2@gmail.com>",
   "license": "ISC",
   "dependencies": {
+    "ansi-colors": "3.2.1",
     "enquirer": "2.0.6",
-    "progress": "2.0.1",
     "ramda": "0.25.0",
     "ramda-extension": "0.6.1"
   },
   "devDependencies": {
+    "jest": "23.6.0",
     "nodemon": "1.18.5"
   }
 }
