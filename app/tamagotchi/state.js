@@ -15,6 +15,10 @@ const decreasingStates = ['hunger', 'happiness', 'energy', 'health'];
 const increasingStates = ['bowel'];
 const combinedStates = unnestAll(decreasingStates, increasingStates);
 
+/**
+ * Initialize the state with the value provided or assign a random number
+ * @param  {object} state
+ */
 const initState = ({
   health,
   energy,
@@ -31,9 +35,14 @@ const initState = ({
   stage: stage || 'New born'
 });
 
-const updateState = (state, currentState) => ({
+/**
+ * Takes currentState, newState and return a updated state
+ * @param  {object} state
+ * @param  {object} currentState
+ */
+const updateState = (newState, currentState) => ({
   ...currentState,
-  ...state
+  ...newState
 });
 
 const showStates = state => !isEnv('test') && console.log(convertToStringWithProgressBar(state));

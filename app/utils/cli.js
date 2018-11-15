@@ -6,7 +6,16 @@ const { prompt } = require('enquirer');
 
 const { convertToStringWithProgressBar } = require('./helpers');
 
-const promptAction = options => async (state, name = 'Tamagotchi') => {
+/**
+ * Promt the user to choose an action from given choices
+ * @param  {Array} choices
+ * @param  {Object} state
+ * @param  {String} name='Tamagotchi'
+ * Curried async function which takes list of available actions
+ * and then current state and the pet name
+ * returns a prompts user to select from given choices
+ */
+const promptAction = choices => async (state, name = 'Tamagotchi') => {
   console.clear();
   return await prompt([{
     type: 'select',
@@ -14,18 +23,21 @@ const promptAction = options => async (state, name = 'Tamagotchi') => {
     header: `Stats -> ${convertToStringWithProgressBar(state)}`,
     footer: colors.blue('(Press up and down to select action)'),
     message: `What do you want to do with ${name}?`,
-    choices: options.map(Re.toUpperFirst),
+    choices: choices.map(Re.toUpperFirst),
     result: value => (value ? R.toLower(value) : [])
   }]);
 };
-
-const promptText = async (text) => {
+/**
+ * Prompts user for input using the provided message as the question
+ * @param  {string} message
+ */
+const promptText = async (message) => {
   console.clear();
   return await prompt([{
     type: 'input',
     name: 'name',
-    message: text,
-    result: value => (value ? Re.toUpperFirst(value) : [])
+    result: value => (value ? Re.toUpperFirst(value) : []),
+    message
   }]);
 };
 

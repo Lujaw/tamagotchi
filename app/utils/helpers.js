@@ -5,8 +5,7 @@ const {
   MAX_VALUE,
   MIN_VALUE,
   MED_VALUE,
-  MIN_INCREMENT,
-  MAX_INCREMENT
+  MIN_INCREMENT
 } = require('../config/constants');
 
 const generateRandom = (max, min = 0) => Math.floor(min + Math.random() * (max - min + 1));

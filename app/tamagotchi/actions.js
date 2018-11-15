@@ -7,6 +7,12 @@ const { MAX_VALUE, MIN_VALUE } = require('../config/constants');
 
 const nonUserActions = ['poop', 'sleep', 'die'];
 
+const userActionHistory = [];
+
+/** The transformation object which determines state computation when action8
+ * key -> action to be applied
+ * value -> object which tells which function to apply to the individual states
+*/
 const actions = {
   feed: {
     hunger: resetTo(MIN_VALUE),
@@ -47,11 +53,24 @@ const actions = {
   quit: { happiness: decWithinThreshold }
 };
 
+/**
+ * Shows the given message to the user and then exits the process
+ * @param  {string} name
+ * @param  {string} message
+ */
 const die = (name, message) => {
   exitWithMessage(`${Re.toUpperFirst(name)} has succumbed to ${message} and has gone to paradise.`);
 };
 
+/**
+ * Takes the current state and then applies the transformation function to the 
+ * state and returns the computed state
+ * @param  {object} state
+ * @param  {string} action
+ */
 const invoke = stats => (action) => {
+  userActionHistory.push(action);
+  console.log('useraction', userActionHistory);
   if (action === 'quit') {
     exitWithMessage('Thanks for playing.');
   }

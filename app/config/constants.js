@@ -1,3 +1,4 @@
+// All the constant values are to be stored here
 const TIME_STEP = 15000; // loop interval time in milliseconds
 const MAX_VALUE = 100;
 const MIN_VALUE = 0;
