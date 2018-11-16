@@ -5,17 +5,23 @@ const {
   MAX_VALUE,
   MIN_VALUE,
   MED_VALUE,
-  MIN_INCREMENT
+  MIN_INCREMENT,
+  MAX_INCREMENT
 } = require('../config/constants');
+
+const isEnv = env => R.toLower(process.env.NODE_ENV) === R.toLower(env);
 
 const generateRandom = (max, min = 0) => Math.floor(min + Math.random() * (max - min + 1));
 
 const assignOrRandom = value => value || generateRandom(MAX_VALUE, MED_VALUE);
 
-const minIncrement = value => R.add(MIN_INCREMENT, value);
-const minDecrement = value => R.subtract(value, MIN_INCREMENT);
+// generating random value from MIN/MAX_INCREMENT for non test environment
+const randomFromMinToMaxInc = isEnv('test') ? MIN_INCREMENT : generateRandom(MAX_INCREMENT, MIN_INCREMENT);
+
+const randomIncrement = value => R.add(randomFromMinToMaxInc, value);
+const randomDecrement = value => R.subtract(value, randomFromMinToMaxInc);
 const divideByTen = R.divide(R.__, 10);
-const incOrDec = action => value => (action === 'inc' ? minIncrement(value) : minDecrement(value));
+const incOrDec = action => value => (action === 'inc' ? randomIncrement(value) : randomDecrement(value));
 
 const updateWithinThreshold = action => R.compose(
   R.clamp(MIN_VALUE, MAX_VALUE),
@@ -41,12 +47,20 @@ const objectValueToProgressBar = Re.mapKeysAndValues(
 );
 
 const sanitizeObjectToString = (state = {}) => {
+  const conversions = {
+    "\'": "",
+    '\"': "",
+    '{': "",
+    '}': "",
+    ',': "\t",
+    ':': ": "
+  };
+
+  const regExpression = new RegExp(Object.keys(conversions).join("|"), "gim");
+  const replacer = match => regexConversion[match];
   try {
     const stateString = JSON.stringify(state);
-    return stateString
-      .replace(/'|"|{|}/gm, '')
-      .replace(/,/gm, '\t')
-      .replace(/:/gm, ': ');
+    return stateString.replace(regExpression, replacer);
   } catch (e) {
     throw e;
   }
@@ -62,8 +76,6 @@ const exitWithMessage = (message) => {
   console.log(message);
   process.exit();
 };
-
-const isEnv = env => R.toLower(process.env.NODE_ENV) === R.toLower(env);
 
 const unnestAll = R.unapply(R.unnest);
 
