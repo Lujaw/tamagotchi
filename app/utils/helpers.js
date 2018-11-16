@@ -1,5 +1,6 @@
 const R = require('ramda');
 const Re = require('ramda-extension');
+const style = require('ansi-styles');
 
 const {
   MAX_VALUE,
@@ -33,7 +34,7 @@ const decWithinThreshold = updateWithinThreshold('dec');
 
 const resetTo = value => R.always(value);
 
-const capitalizeKeys = Re.mapKeysWithValue((k, v) => Re.toUpperFirst(k));
+const capitalizeKeys = Re.mapKeysWithValue(k => Re.toUpperFirst(k));
 
 const progressBar = (value, char = '#') => {
   const length = Math.floor(divideByTen(MAX_VALUE));
@@ -48,16 +49,16 @@ const objectValueToProgressBar = Re.mapKeysAndValues(
 
 const sanitizeObjectToString = (state = {}) => {
   const conversions = {
-    "\'": "",
-    '\"': "",
-    '{': "",
-    '}': "",
-    ',': "\t",
-    ':': ": "
+    "'": '',
+    '"': '',
+    '{': '',
+    '}': '',
+    // ',': '   ',
+    ':': ': '
   };
 
-  const regExpression = new RegExp(Object.keys(conversions).join("|"), "gim");
-  const replacer = match => regexConversion[match];
+  const regExpression = new RegExp(Object.keys(conversions).join('|'), 'gim');
+  const replacer = match => conversions[match];
   try {
     const stateString = JSON.stringify(state);
     return stateString.replace(regExpression, replacer);
@@ -66,14 +67,37 @@ const sanitizeObjectToString = (state = {}) => {
   }
 };
 
+const addAnsiStyle = (string, styles) => 
+  `${style[styles].open} ${string} ${style[styles].close}`
+
+const encloseByChalkColor = (string, count) =>{
+  if(count === 0 && !/\]|\[/.test(string)) {
+    return string;
+  }
+  if(count <= 3) {
+    return addAnsiStyle(string, "red");
+  }
+  if(count <= 6) {
+    return addAnsiStyle(string, "yellow");
+  }
+  return addAnsiStyle(string, "green");
+}
+const findNumber = (string) => (string.match(/#/ig) || []).length;
+
+const addChalkColor = string => encloseByChalkColor(string, findNumber(string))
+
 const convertToStringWithProgressBar = R.compose(
+  R.join(" "),
+  R.map(addChalkColor),
+  R.split(','),
   sanitizeObjectToString,
-  objectValueToProgressBar,
+  objectValueToProgressBar
 );
 
 
 const exitWithMessage = (message) => {
-  console.log(message);
+  console.clear();
+  console.log(`\n ${addAnsiStyle(message, 'greenBright')} \n `);
   process.exit();
 };
 

@@ -6,12 +6,12 @@ describe('Tamagotchi', () => {
   let pet;
 
   beforeEach(() => {
-    pet = tamagotchi('testPet');
+    pet = tamagotchi('TestPet');
   });
 
   it('should initialize with the given name and stage as new Born', () => {
     const state = pet.getState();
-    expect(pet.getName()).toBe('testPet');
+    expect(pet.getName()).toBe('TestPet');
     expect(pet.getAge()).toBe(0);
     expect(state).toHaveProperty('health');
     expect(state).toHaveProperty('stage', 'New born');
@@ -22,7 +22,7 @@ describe('Tamagotchi', () => {
   });
 
   it('should be able to be renamed', () => {
-    expect(pet.getName()).toBe('testPet');
+    expect(pet.getName()).toBe('TestPet');
     pet.setName('newName');
     expect(pet.getName()).toBe('newName');
   });
