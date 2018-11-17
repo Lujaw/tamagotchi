@@ -2,7 +2,7 @@
   "initialState": {
     "health": 50,
     "energy": 50,
-    "hunger": 50,
+    "fullness": 50,
     "bowel": 50,
     "happiness": 50,
     "stage": "Infant"
@@ -11,15 +11,15 @@
     "feed": {
       "health": 60,
       "energy": 40,
-      "hunger": 0,
+      "fullness": 100,
       "happiness": 60,
-      "bowel": 50,
+      "bowel": 40,
       "stage": "Infant"
     },
     "play": {
       "health": 60,
       "energy": 40,
-      "hunger": 60,
+      "fullness": 40,
       "happiness": 60,
       "bowel": 50,
       "stage": "Infant"
@@ -27,7 +27,7 @@
     "put to bed": {
       "health": 60,
       "energy": 100,
-      "hunger": 60,
+      "fullness": 40,
       "happiness": 60,
       "bowel": 50,
       "stage": "Infant"
@@ -35,7 +35,7 @@
     "give medicine": {
       "health": 100,
       "energy": 100,
-      "hunger": 40,
+      "fullness": 60,
       "happiness": 40,
       "bowel": 50,
       "stage": "Infant"
@@ -43,7 +43,7 @@
     "sleep": {
       "health": 60,
       "energy": 100,
-      "hunger": 60,
+      "fullness": 40,
       "happiness": 60,
       "bowel": 50,
       "stage": "Infant"
@@ -51,9 +51,17 @@
     "poop": {
       "health": 50,
       "energy": 40,
-      "hunger": 60,
+      "fullness": 40,
       "happiness": 50,
-      "bowel": 0,
+      "bowel": 100,
+      "stage": "Infant"
+    },
+    "go potty": {
+      "health": 50,
+      "energy": 40,
+      "fullness": 40,
+      "happiness": 50,
+      "bowel": 100,
       "stage": "Infant"
     }
   }

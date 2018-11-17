@@ -7,22 +7,21 @@ const { MAX_VALUE, MIN_VALUE } = require('../config/constants');
 
 const nonUserActions = ['poop', 'sleep', 'die'];
 
-const userActionHistory = [];
-
 /** The transformation object which determines state computation when action8
  * key -> action to be applied
  * value -> object which tells which function to apply to the individual states
 */
 const actions = {
   feed: {
-    hunger: resetTo(MIN_VALUE),
+    fullness: resetTo(MAX_VALUE),
     energy: decWithinThreshold,
     health: incWithinThreshold,
-    happiness: incWithinThreshold
+    happiness: incWithinThreshold,
+    bowel: decWithinThreshold
   },
   'put to bed': {
     energy: resetTo(MAX_VALUE),
-    hunger: incWithinThreshold,
+    fullness: decWithinThreshold,
     health: incWithinThreshold,
     happiness: incWithinThreshold
   },
@@ -30,25 +29,31 @@ const actions = {
     happiness: incWithinThreshold,
     energy: decWithinThreshold,
     health: incWithinThreshold,
-    hunger: incWithinThreshold
+    fullness: decWithinThreshold
   },
   poop: {
-    bowel: resetTo(MIN_VALUE),
-    hunger: incWithinThreshold,
+    bowel: resetTo(MAX_VALUE),
+    fullness: decWithinThreshold,
     energy: decWithinThreshold,
     health: R.identity
   },
   sleep: {
     energy: resetTo(MAX_VALUE),
-    hunger: incWithinThreshold,
+    fullness: decWithinThreshold,
     health: incWithinThreshold,
     happiness: incWithinThreshold
   },
   'give medicine': {
     energy: resetTo(MAX_VALUE),
-    hunger: decWithinThreshold,
+    fullness: incWithinThreshold,
     health: resetTo(MAX_VALUE),
     happiness: decWithinThreshold
+  },
+  'go potty': {
+    bowel: resetTo(MAX_VALUE),
+    fullness: decWithinThreshold,
+    energy: decWithinThreshold,
+    health: R.identity
   },
   quit: { happiness: decWithinThreshold }
 };
@@ -63,14 +68,12 @@ const die = (name, message) => {
 };
 
 /**
- * Takes the current state and then applies the transformation function to the 
+ * Takes the current state and then applies the transformation function to the
  * state and returns the computed state
  * @param  {object} state
  * @param  {string} action
  */
 const invoke = stats => (action) => {
-  userActionHistory.push(action);
-  console.log('useraction', userActionHistory);
   if (action === 'quit') {
     exitWithMessage('Thanks for playing.');
   }
