@@ -18,7 +18,7 @@ describe('Tamagotchi', () => {
     expect(state).toHaveProperty('happiness');
     expect(state).toHaveProperty('bowel');
     expect(state).toHaveProperty('energy');
-    expect(state).toHaveProperty('hunger');
+    expect(state).toHaveProperty('fullness');
   });
 
   it('should be able to be renamed', () => {
@@ -36,7 +36,7 @@ describe('Tamagotchi', () => {
       expect(newState).not.toEqual(initialState);
       expect(newState).toHaveProperty('health', 0);
       expect(newState).toHaveProperty('happiness', 0);
-      expect(newState).toHaveProperty('hunger', 0);
+      expect(newState).toHaveProperty('fullness', 0);
       done();
     }, 100);
   });

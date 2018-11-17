@@ -11,8 +11,10 @@ const {
   unnestAll
 } = require('../utils/helpers');
 
-const decreasingStates = ['hunger', 'happiness', 'energy', 'health'];
+const decreasingStates = ['happiness', 'energy', 'health', 'fullness'];
 const increasingStates = ['bowel'];
+
+// unnest is being used, inorder to accomodate more than two types of states
 const combinedStates = unnestAll(decreasingStates, increasingStates);
 
 /**
@@ -22,14 +24,14 @@ const combinedStates = unnestAll(decreasingStates, increasingStates);
 const initState = ({
   health,
   energy,
-  hunger,
+  fullness,
   bowel,
   happiness,
   stage
 } = {}) => ({
   health: assignOrRandom(health),
   energy: assignOrRandom(energy),
-  hunger: assignOrRandom(hunger),
+  fullness: assignOrRandom(fullness),
   happiness: assignOrRandom(happiness),
   bowel: bowel || generateRandom(MAX_VALUE, MIN_VALUE),
   stage: stage || 'New born'
@@ -45,8 +47,28 @@ const updateState = (newState, currentState) => ({
   ...newState
 });
 
+/**
+ * Takes state, and then log the state if the environment is not test
+ * @param  {object} state
+ */
 const showStates = state => !isEnv('test') && console.log(convertToStringWithProgressBar(state));
 
+/**
+ * Takes the names of the state variable and returns whether it is an
+ * increasing or a decreasing one
+ * @param  {string}
+ */
+const getStateType =
+  R.cond([
+    [R.contains(R.__, decreasingStates), R.always('dec')],
+    [R.contains(R.__, increasingStates), R.always('inc')],
+    [R.T, R.identity]
+  ])
+
+/**
+ * Returns the state transformer object for the states which
+ * is applied in the loop
+ */
 const stateLoopTransformer = () => {
   const stateOperation = R.cond([
     [R.contains(R.__, decreasingStates), R.assoc(R.__, decWithinThreshold, {})],
@@ -67,5 +89,6 @@ module.exports = {
   initState,
   updateState,
   showStates,
+  getStateType,
   stateLoopTransformer
 };

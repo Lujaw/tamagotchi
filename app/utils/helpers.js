@@ -53,7 +53,6 @@ const sanitizeObjectToString = (state = {}) => {
     '"': '',
     '{': '',
     '}': '',
-    // ',': '   ',
     ':': ': '
   };
 
@@ -67,8 +66,8 @@ const sanitizeObjectToString = (state = {}) => {
   }
 };
 
-const addAnsiStyle = (string, styles) => 
-  `${style[styles].open} ${string} ${style[styles].close}`
+const addAnsiStyle = (string, styles) =>
+  `${style[styles].open} ${string} ${style[styles].close}`;
 
 const encloseByChalkColor = (string, count) =>{
   if(count === 0 && !/\]|\[/.test(string)) {
