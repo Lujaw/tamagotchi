@@ -4,10 +4,10 @@
   "description": "A virtual Pet created in node ",
   "main": "index.js",
   "scripts": {
-    "test": "NODE_ENV=test jest --watch",
-    "start": "NODE_ENV=dev node app/index.js",
     "lint": "eslint ./app",
-    "serve": "NODE_ENV=prod npm run start"
+    "serve": "NODE_ENV=prod npm run start",
+    "start": "NODE_ENV=dev node app/index.js",
+    "test": "NODE_ENV=test jest --watch"
   },
   "keywords": [
     "tamagotchi"
