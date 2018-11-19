@@ -66,27 +66,26 @@ const sanitizeObjectToString = (state = {}) => {
   }
 };
 
-const addAnsiStyle = (string, styles) =>
-  `${style[styles].open} ${string} ${style[styles].close}`;
+const addAnsiStyle = (string, styles) => `${style[styles].open} ${string} ${style[styles].close}`;
 
-const encloseByChalkColor = (string, count) =>{
-  if(count === 0 && !/\]|\[/.test(string)) {
+const encloseByChalkColor = (string, count) => {
+  if (count === 0 && !/\]|\[/.test(string)) {
     return string;
   }
-  if(count <= 3) {
-    return addAnsiStyle(string, "red");
+  if (count <= 3) {
+    return addAnsiStyle(string, 'red');
   }
-  if(count <= 6) {
-    return addAnsiStyle(string, "yellow");
+  if (count <= 6) {
+    return addAnsiStyle(string, 'yellow');
   }
-  return addAnsiStyle(string, "green");
-}
-const findNumber = (string) => (string.match(/#/ig) || []).length;
+  return addAnsiStyle(string, 'green');
+};
+const findNumber = string => (string.match(/#/ig) || []).length;
 
-const addChalkColor = string => encloseByChalkColor(string, findNumber(string))
+const addChalkColor = string => encloseByChalkColor(string, findNumber(string));
 
 const convertToStringWithProgressBar = R.compose(
-  R.join(" "),
+  R.join(' '),
   R.map(addChalkColor),
   R.split(','),
   sanitizeObjectToString,
@@ -103,16 +102,17 @@ const exitWithMessage = (message) => {
 const unnestAll = R.unapply(R.unnest);
 
 module.exports = {
-  generateRandom,
+  addAnsiStyle,
   assignOrRandom,
-  incWithinThreshold,
-  decWithinThreshold,
-  resetTo,
   capitalizeKeys,
-  progressBar,
-  sanitizeObjectToString,
-  exitWithMessage,
-  isEnv,
   convertToStringWithProgressBar,
+  decWithinThreshold,
+  exitWithMessage,
+  generateRandom,
+  incWithinThreshold,
+  isEnv,
+  progressBar,
+  resetTo,
+  sanitizeObjectToString,
   unnestAll
 };

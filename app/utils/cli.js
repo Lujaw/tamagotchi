@@ -4,7 +4,7 @@ const Re = require('ramda-extension');
 const colors = require('ansi-colors');
 const { prompt } = require('enquirer');
 
-const { convertToStringWithProgressBar } = require('./helpers');
+const { addAnsiStyle, convertToStringWithProgressBar } = require('./helpers');
 
 let topMessage = '';
 
@@ -13,7 +13,7 @@ const setTopMessage = (message) => {
 };
 
 const showTopMessage = () => {
-  console.log(topMessage);
+  console.log(addAnsiStyle(topMessage, 'red'));
   topMessage = '';
 };
 
@@ -26,8 +26,7 @@ const showTopMessage = () => {
  * and then current state and the pet name
  * returns a prompts user to select from given choices
  */
-const promptAction = choices => async (state, name = 'Tamagotchi') =>
-{
+const promptAction = choices => async (state, name = 'Tamagotchi') => {
   console.clear();
   showTopMessage();
   return await prompt([{
