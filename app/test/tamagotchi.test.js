@@ -21,7 +21,7 @@ describe('Tamagotchi', () => {
     expect(state).toHaveProperty('fullness');
   });
 
-  it('should be able to be renamed', () => {
+  it('can be renamed', () => {
     expect(pet.getName()).toBe('TestPet');
     pet.setName('newName');
     expect(pet.getName()).toBe('newName');

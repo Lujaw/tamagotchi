@@ -41,6 +41,7 @@ File Structure:
 3. Each action will change the tamagotchi state
 4. Green color bar means All Ok, Red means the state is critical
 5. Select the action that increases the critical state
+6. Repeat
 
 
 
@@ -61,13 +62,13 @@ Secondary reactions may increase/decrease other states
 
 
 
-### Game over when:
+#### Game over scenarios:
 * When the health is zero
 * When the age reaches maximum age
 * The user selects to quit
 
 
-ROADMAP:
+#### Roadmap:
 
 * Read/write state to external file, so that quitting doesn't start over
 * Add option to pause the game

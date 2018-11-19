@@ -58,12 +58,11 @@ const showStates = state => !isEnv('test') && console.log(convertToStringWithPro
  * increasing or a decreasing one
  * @param  {string}
  */
-const getStateType =
-  R.cond([
-    [R.contains(R.__, decreasingStates), R.always('dec')],
-    [R.contains(R.__, increasingStates), R.always('inc')],
-    [R.T, R.identity]
-  ])
+const getStateType = R.cond([
+  [R.contains(R.__, decreasingStates), R.always('dec')],
+  [R.contains(R.__, increasingStates), R.always('inc')],
+  [R.T, R.identity]
+]);
 
 /**
  * Returns the state transformer object for the states which

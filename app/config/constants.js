@@ -1,8 +1,8 @@
 // All the constant values are to be stored here
-const TIME_STEP = 10000; // loop interval time in milliseconds
+const TIME_STEP = 15000; // loop interval time in milliseconds
 const MAX_VALUE = 100;
 const MIN_VALUE = 0;
-const MAX_AGE = 100;
+const MAX_AGE = 100; // it is approx 4 hrs for now
 const MED_VALUE = 0.50 * MAX_VALUE;
 const LOWER_THRESHOLD = 0.15 * MAX_VALUE;
 const UPPER_THRESHOLD = 0.85 * MAX_VALUE;
